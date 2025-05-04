@@ -1,0 +1,11 @@
+<div class="login-wrapper">
+  <h1 class="title">Backup Manager</h1>
+  <div class="login-box">
+    <h3>Login</h3>
+    <form (ngSubmit)="onLogin($event)">
+      <input type="text" placeholder="Username" name="username" [(ngModel)]="username" required />
+      <input type="password" placeholder="Password" name="password" [(ngModel)]="password" required />
+      <button type="submit">Sign In</button>
+    </form>
+  </div>
+</div>

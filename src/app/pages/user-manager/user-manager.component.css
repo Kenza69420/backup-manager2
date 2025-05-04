@@ -1,0 +1,71 @@
+.page-container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.top-bar h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.back-btn {
+  padding: 8px 16px;
+  background-color: #6b5b95;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  opacity: 0.8;
+}
+
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.user-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  width: 250px;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+
+.user-card input {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #999;
+  border-radius: 4px;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.add-btn {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+.add-btn:hover {
+  opacity: 0.8;
+}
+

@@ -1,0 +1,45 @@
+<div class="page-container">
+  <div class="top-bar">
+    <h2>User Manager</h2>
+    <button class="back-btn" (click)="goBack()">Zpět</button>
+  </div>
+  <div class="content">
+    <!-- Add User button using the same "add-btn" style -->
+    <button class="add-btn" (click)="addUser()">Add User</button>
+
+    <!-- New User form: password visible when adding -->
+    <div *ngIf="addingNew" class="add-form">
+      <h3>New User</h3>
+      <input type="text" [(ngModel)]="newUser.username" placeholder="Username" />
+      <input type="text" [(ngModel)]="newUser.password" placeholder="Password" />
+      <div class="form-actions">
+        <button (click)="saveNewUser()">Save</button>
+        <button (click)="cancelAdd()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- List of users -->
+    <div class="user-list">
+      <div class="user-card" *ngFor="let user of users">
+        <ng-container *ngIf="!user.editing; else editMode">
+          <h3>{{ user.username }}</h3>
+          <p>Password: ********</p>
+          <div class="actions">
+            <button (click)="toggleEdit(user)">Edit</button>
+            <button (click)="deleteUser(user)">Delete</button>
+            <button (click)="resetPassword(user)">Reset Password</button>
+          </div>
+        </ng-container>
+        <ng-template #editMode>
+          <input type="text" [(ngModel)]="user.username" placeholder="Username" />
+          <!-- In edit mode, hide the password with type password -->
+          <input type="password" [(ngModel)]="user.password" placeholder="Password" />
+          <div class="actions">
+            <button (click)="saveUser(user)">Save</button>
+            <button (click)="toggleEdit(user)">Cancel</button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

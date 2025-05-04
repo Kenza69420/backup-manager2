@@ -1,0 +1,37 @@
+<div class="page-container">
+  <div class="top-bar">
+    <h2>Config Backup</h2>
+    <button class="back-btn" (click)="goBack()">Zpět</button>
+  </div>
+  <div class="content">
+    <h3>Configure Backup ID: {{ backupId }}</h3>
+    <form (ngSubmit)="saveConfig()">
+      <label>Backup Type:</label>
+      <select [(ngModel)]="backupType" name="backupType">
+        <option *ngFor="let type of availableBackupTypes" [value]="type">{{ type }}</option>
+      </select>
+
+      <label>Retention Count:</label>
+      <input type="number" [(ngModel)]="retentionCount" name="retentionCount" />
+
+      <label>Retention Size (MB):</label>
+      <input type="number" [(ngModel)]="retentionSize" name="retentionSize" />
+
+      <!-- Side-by-side fields for Source and Target -->
+      <div class="source-target">
+        <div class="st-column">
+          <label>Source:</label>
+          <input type="text" [(ngModel)]="source" name="source" />
+        </div>
+        <div class="st-column">
+          <label>Target:</label>
+          <input type="text" [(ngModel)]="target" name="target" />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit">Save Config</button>
+      </div>
+    </form>
+  </div>
+</div>

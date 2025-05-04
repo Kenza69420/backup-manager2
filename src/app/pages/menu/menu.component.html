@@ -1,0 +1,14 @@
+<div class="menu-wrapper">
+  <h1 class="title">Backup Manager</h1>
+  <div class="menu-box">
+    <h3>Dashboard</h3>
+    <div class="menu-options">
+      <!-- Use absolute paths so each manager is a separate page -->
+      <button class="menu-btn" routerLink="/backup-manager">Backup Manager</button>
+      <button class="menu-btn" routerLink="/client-manager">Computer Manager</button>
+      <button class="menu-btn" routerLink="/history">History</button>
+      <button class="menu-btn" routerLink="/user-manager">User Manager</button>
+    </div>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</div>

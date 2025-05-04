@@ -1,0 +1,46 @@
+<div class="page-container">
+  <!-- Vršek s zpět button -->
+  <div class="top-bar">
+    <h2>Backup Manager</h2>
+    <button class="back-btn" (click)="goBack()">Zpět</button>
+  </div>
+  <div class="content">
+    <!-- Add Backup button (stejný všude) -->
+    <button class="add-btn" (click)="addBackup()">Add Backup</button>
+
+    <!-- Add Backup form -->
+    <div *ngIf="addingNew" class="add-form">
+      <h3>New Backup</h3>
+      <input type="text" [(ngModel)]="newBackupName" placeholder="Backup Name" />
+      <label>Created By:</label>
+      <select [(ngModel)]="newCreatedBy">
+        <option value="">-- select user --</option>
+        <option *ngFor="let user of availableUsers" [value]="user">{{ user }}</option>
+      </select>
+      <label>Running On:</label>
+      <select [(ngModel)]="newRunningOn">
+        <option value="">-- select computer --</option>
+        <option *ngFor="let comp of availableComputers" [value]="comp">{{ comp }}</option>
+      </select>
+      <div class="form-actions">
+        <button (click)="saveNewBackup()">Save</button>
+        <button (click)="cancelAdd()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- List backups -->
+    <div class="backup-list">
+      <div class="backup-card" *ngFor="let backup of backups">
+        <h3>{{ backup.backupName }}</h3>
+        <p><strong>Created By:</strong> {{ backup.createdBy }}</p>
+        <p><strong>Running On:</strong> {{ backup.runningOn }}</p>
+        <p><strong>Source:</strong> {{ backup.source }}</p>
+        <p><strong>Target:</strong> {{ backup.target }}</p>
+        <div class="actions">
+          <button (click)="editBackup(backup)">Edit (Config)</button>
+          <button (click)="deleteBackup(backup)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

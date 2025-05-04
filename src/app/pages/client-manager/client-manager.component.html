@@ -1,0 +1,56 @@
+<div class="page-container">
+  <div class="top-bar">
+    <h2>Computer Manager</h2>
+    <button class="back-btn" (click)="goBack()">Zpět</button>
+  </div>
+  <div class="content">
+    <button class="add-btn" (click)="addComputer()">Add Computer</button>
+    <div *ngIf="addingNew" class="add-form">
+      <h3>New Computer</h3>
+      <input type="text" [(ngModel)]="newComputer.name" placeholder="Computer Name" />
+      <input type="text"
+             [(ngModel)]="newComputer.ip"
+             placeholder="IP Address"
+             (input)="filterIp($event)"
+             title="Digits and dots only (e.g. 192.168.1.101)" />
+      <select [(ngModel)]="newComputer.status">
+        <option value="Online">Online</option>
+        <option value="Offline">Offline</option>
+      </select>
+      <div class="form-actions">
+        <button (click)="saveNewComputer()">Save</button>
+        <button (click)="cancelAdd()">Cancel</button>
+      </div>
+    </div>
+    <div class="computer-list">
+      <div class="computer-card" *ngFor="let computer of computers">
+        <ng-container *ngIf="!computer.editing; else editMode">
+          <div class="card-header">
+            <h3>{{ computer.name }}</h3>
+            <span class="status" [ngClass]="{'online': computer.status==='Online', 'offline': computer.status==='Offline'}">
+              {{ computer.status }}
+            </span>
+          </div>
+          <div class="card-body">
+            <p><strong>IP Address:</strong> {{ computer.ip }}</p>
+          </div>
+          <div class="card-actions">
+            <button (click)="toggleEdit(computer)">Edit</button>
+            <button (click)="deleteComputer(computer)">Delete</button>
+          </div>
+        </ng-container>
+        <ng-template #editMode>
+          <input type="text" [(ngModel)]="computer.name" placeholder="Computer Name" />
+          <input type="text"
+                 [(ngModel)]="computer.ip"
+                 placeholder="IP Address"
+                 (input)="filterIp($event)" />
+          <div class="card-actions">
+            <button (click)="saveComputer(computer)">Save</button>
+            <button (click)="toggleEdit(computer)">Cancel</button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

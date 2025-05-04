@@ -1,0 +1,45 @@
+<div class="history-container">
+  <!-- Top bar: Title, Search, Back button -->
+  <div class="header-row">
+    <h2>Historie</h2>
+    <input
+      type="text"
+      placeholder="Prohledat Historii"
+      [(ngModel)]="searchTerm"
+    />
+    <button class="back-btn" (click)="goBack()">Zpět</button>
+  </div>
+
+  <!-- Table to display each record -->
+  <table>
+    <thead>
+    <tr>
+      <th>Klient</th>
+      <th>Uživatel</th>
+      <th>Typ</th>
+      <th>Timestamp</th>
+      <th>Source</th>
+      <th>Target</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- If you want a real filter, you'd do:
+         *ngFor="let record of historyRecords | filter:searchTerm"
+         or a manual filter in TS. For now, we show all. -->
+    <tr *ngFor="let record of historyRecords">
+      <td>{{ record.client }}</td>
+      <td>{{ record.user }}</td>
+      <td>{{ record.type }}</td>
+      <td>{{ record.timestamp }}</td>
+      <td>
+        <!-- Display multiple sources -->
+        <div *ngFor="let src of record.source">{{ src }}</div>
+      </td>
+      <td>
+        <!-- Display multiple targets -->
+        <div *ngFor="let tgt of record.target">{{ tgt }}</div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
