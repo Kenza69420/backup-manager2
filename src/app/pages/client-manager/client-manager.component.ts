@@ -1,11 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ClientsService, Client } from '../../services/clients.service'; // adjust import path if needed
 
-interface Computer {
-  name: string;
-  ip: string;
+interface EditableClient extends Client {
   status: string;
   editing?: boolean;
 }
@@ -17,38 +16,50 @@ interface Computer {
   templateUrl: './client-manager.component.html',
   styleUrls: ['./client-manager.component.css']
 })
-export class ClientManagerComponent {
-  // Local array of computers
-  computers: Computer[] = [
-    { name: 'PC1', ip: '192.168.1.101', status: 'Online' },
-    { name: 'PC2', ip: '192.168.1.102', status: 'Offline' },
-    { name: 'Server1', ip: '192.168.1.201', status: 'Online' }
-  ];
+export class ClientManagerComponent implements OnInit {
+  computers: EditableClient[] = [];
+  addingNew = false;
+  newComputer: Partial<EditableClient> = {};
 
-  addingNew: boolean = false;
-  newComputer: Partial<Computer> = {};
+  constructor(private router: Router, private clientService: ClientsService) {}
 
-  constructor(private router: Router) {}
+  ngOnInit(): void {
+    console.log('ClientManagerComponent loaded');
+    this.loadClients();
+  }
+
+  loadClients(): void {
+    this.clientService.getAll().subscribe(data => {
+      this.computers = data.map(c => ({
+        ...c,
+        status: 'Online',  // Default or fetched value
+        editing: false
+      }));
+    });
+  }
 
   goBack(): void {
     this.router.navigate(['/menu']);
   }
 
-  // Start adding a new computer
   addComputer(): void {
     this.addingNew = true;
     this.newComputer = {};
   }
 
-  // Save new computer
   saveNewComputer(): void {
-    this.computers.push({
-      name: this.newComputer.name || '',
-      ip: this.newComputer.ip || '',
-      status: this.newComputer.status || 'Offline'
-    });
-    this.addingNew = false;
-    this.newComputer = {};
+    if (this.newComputer.name && this.newComputer.ip) {
+      const status = this.newComputer.status || 'Offline';
+      this.clientService.create({
+        name: this.newComputer.name,
+        ip: this.newComputer.ip,
+        status: status
+      }).subscribe(() => {
+        this.addingNew = false;
+        this.newComputer = {};
+        this.loadClients();
+      });
+    }
   }
 
   cancelAdd(): void {
@@ -56,20 +67,25 @@ export class ClientManagerComponent {
     this.newComputer = {};
   }
 
-  // Vyfiltruje jen na cisla v ip.
   filterIp(event: any): void {
     event.target.value = event.target.value.replace(/[^0-9.]/g, '');
   }
 
-  toggleEdit(computer: Computer): void {
-    computer.editing = !computer.editing;
+  toggleEdit(client: EditableClient): void {
+    client.editing = !client.editing;
   }
 
-  saveComputer(computer: Computer): void {
-    computer.editing = false;
+  saveComputer(client: EditableClient): void {
+    this.clientService.update(client).subscribe(() => {
+      client.editing = false;
+      this.loadClients();
+    });
   }
 
-  deleteComputer(computer: Computer): void {
-    this.computers = this.computers.filter(c => c !== computer);
+  deleteComputer(client: EditableClient): void {
+    this.clientService.delete(client.id).subscribe(() => {
+      this.loadClients();
+    });
   }
 }
+
